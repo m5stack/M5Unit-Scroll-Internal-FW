@@ -40,18 +40,22 @@
 #define delay_300ns() delay_150ns(); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP")
 #define delay_600ns() delay_300ns(); delay_300ns()
 #define delay_900ns() delay_600ns(); delay_300ns()
+#define delay_150ns_low() __asm("NOP"); __asm("NOP"); __asm("NOP")
+#define delay_300ns_low() delay_150ns_low();
+#define delay_300ns_high() delay_150ns(); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP"); __asm("NOP");__asm("NOP");__asm("NOP")
+#define delay_750ns() delay_600ns(); delay_300ns_low()
 
 #define out_bit_low() \
   gpio_high(); \
-  delay_300ns(); \
+  delay_300ns_low(); \
   gpio_low(); \
-  delay_600ns();
+  delay_750ns();
 
 #define out_bit_high() \
   gpio_high(); \
-  delay_900ns(); \
+  delay_750ns(); \
   gpio_low(); \
-  delay_150ns();
+  delay_300ns_high();
 	
 
 /* USER CODE END Private defines */

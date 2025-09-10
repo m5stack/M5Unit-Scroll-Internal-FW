@@ -232,11 +232,11 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
       }
       if (rx_mark[2]) {
         encoder_countAB &= ~0x00ff0000;
-        encoder_countAB |= rx_buf[2];
+        encoder_countAB |= (rx_buf[2] << 16);
       }
       if (rx_mark[3]) {
         encoder_countAB &= ~0xff000000;
-        encoder_countAB |= (rx_buf[3] << 8);
+        encoder_countAB |= (rx_buf[3] << 24);
       }        
     }      
     else if ((rx_data[0] >= 0x30) && (rx_data[0] <= 0x33))
@@ -452,6 +452,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+    HAL_NVIC_SystemReset();
   }
   /* USER CODE END Error_Handler_Debug */
 }
